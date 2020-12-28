@@ -1,0 +1,8 @@
+.card-text{
+    color: black
+}
+
+.container{
+    display: flex;
+    background-color: aqua;
+}

@@ -1,7 +1,7 @@
 class ActorModel{
-constructor(fName, Lname,birthday, image, IMDBlink){ 
+constructor(fName, lName,birthday, image, IMDBlink){ 
     this.fName= fName;
-    this.Lname= Lname;
+    this.lName= lName;
     this.birthday= new Date(birthday);
     this.image= image;
     this.IMDBlink= IMDBlink;
