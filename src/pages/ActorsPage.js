@@ -18,11 +18,17 @@ function ActorsPage(props){
         "https://www.imdb.com/name/nm0000309/?ref_=fn_al_nm_1");
     
     const list= [actor1,actor2,actor3]; 
-    const actorCard= list.map(actor=> <ActorCard actor={actor}/>);
     
-    
+    const filteredResult = list.filter(actor => actor.fName.includes(filter.trim()));
+    const actorCard= filteredResult.map(actor=> <ActorCard actor={actor}/>);
+
+
     return(
         <div>
+            <form className="">
+                <label htmlFor="filter" >Filter It! </label>
+                <input type="text"  id="filter" value={filter} onChange={(e)=> setFilter(e.target.value)}/>
+            </form>
             <div>{actorCard}</div>
         </div>
     )
