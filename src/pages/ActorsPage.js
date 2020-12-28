@@ -1,6 +1,11 @@
-const ActorsView(props){
-    const {actors}=props;
-    return()
+const ActorsPage(props){
+    const {actors, selectedActors}=props;
+    const [filter, setFilter]= useState("")
+    return(
+        <div>
+            
+        </div>
+    )
 }
 
-export default ActorsView
+export default ActorsPage
