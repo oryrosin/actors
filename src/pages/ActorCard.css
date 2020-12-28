@@ -1,8 +1,9 @@
-.card-text{
-    color: black
-}
+
 
 .container{
     display: flex;
-    background-color: aqua;
+}
+
+.card{
+    margin: 20px;
 }

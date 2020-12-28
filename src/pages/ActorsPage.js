@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ActorModel from '../models/ActorModel';
 import ActorCard from './ActorCard';
+import "./ActorPage.css";
 
 function ActorsPage(props){
     const {actors, selectedActors}=props;
@@ -19,17 +20,29 @@ function ActorsPage(props){
     
     const list= [actor1,actor2,actor3]; 
     
-    const filteredResult = list.filter(actor => actor.fName.includes(filter.trim()));
+    const filteredResult = list.filter(actor => actor.fName.toLowerCase().includes(filter.toLowerCase().trim()));
     const actorCard= filteredResult.map(actor=> <ActorCard actor={actor}/>);
 
 
     return(
         <div>
-            <form className="">
-                <label htmlFor="filter" >Filter It! </label>
-                <input type="text"  id="filter" value={filter} onChange={(e)=> setFilter(e.target.value)}/>
-            </form>
-            <div>{actorCard}</div>
+            {/* <div class="background-container">
+                <div class="stars"></div>
+                <div class="twinkling"></div>
+            </div>  */}
+            <h1>Actors</h1>
+            <div className="navbar-nav row">
+                <form className="">
+                    <label htmlFor="filter" >Filter It! </label>
+                    <input type="text"  id="filter" value={filter} onChange={(e)=> setFilter(e.target.value)}/>
+                </form>
+            </div>
+            
+            <div className="container">
+            
+                {actorCard}  
+            </div> 
+            
         </div>
     )
 }

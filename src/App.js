@@ -3,6 +3,7 @@ import './App.css';
 import ActorModel from './models/ActorModel';
 import ActorCard from './pages/ActorCard';
 import ActorsPage from './pages/ActorsPage';
+import "./pages/ActorPage.css";
 
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <ActorsPage/>
+        <ActorsPage/>  
       </header>
     </div>
   );
