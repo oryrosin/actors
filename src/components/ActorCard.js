@@ -13,15 +13,10 @@ function ActorCard(props){
                 <div className="card-body">
                     <h4 className="card-title" style={{color:"black"}}>{actor.fName +" "+ actor.lName}</h4>
                     <p className="card-text" style={{color:"black"}}>{actor.age()}</p>
-
                 </div>
             </Card>
         </Row> 
-        </Container>
-    
-        // <div className="card">
-        //     <img src={actor.image} alt=""></img>
-        // </div>
+    </Container>
         
       );
 }

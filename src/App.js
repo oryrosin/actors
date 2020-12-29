@@ -1,16 +1,12 @@
 
 import './App.css';
 import ActorModel from './models/ActorModel';
-import ActorCard from './pages/ActorCard';
-import ActorsPage from './pages/ActorsPage';
-import "./pages/ActorPage.css";
+import ActorCard from './components/ActorCard';
+import ActorsPage from './components/ActorsPage';
+
 
 
 function App() {
-  
-  
-
-
 
   return (
     <div className="App">
