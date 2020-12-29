@@ -4,6 +4,6 @@
     display: flex;
 }
 
-.card{
-    margin: 20px;
+.MuiCard-root{
+    margin: 10px;
 }
