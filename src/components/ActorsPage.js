@@ -2,14 +2,19 @@ import React, { useEffect, useState } from "react";
 import ActorModel from '../models/ActorModel';
 import ActorCard from './ActorCard';
 import axios from 'axios';
+import MovieCard from './MovieCard'
+import SearchBox from "./SearchBox";
+import MovieModel from '../models/MovieModel'
 
-
-function ActorsPage(props){
-    const {actors, selectedActors}=props;
+function ActorsPage(){
     const [filter, setFilter]= useState("");
-    const [ actorsData, setActorsData]= useState([]);
-    const [movieSearch, setMovieSearch]= useState("love");
- 
+    const [actorsData, setActorsData]= useState([]);
+    const [movieSearch, setMovieSearch]= useState("");
+    const [movies, setMovies] = useState([]);
+    const [searchText, setSearchText] = useState("");
+    const [results, setResults] = useState([]);
+    const [resultsFull, setResultsFull] = useState([]);
+
     useEffect(()=>{
         axios.get("actors.json").then(res=>{
         const actors= res.data.actors.map(plainActor => new ActorModel(plainActor));
@@ -25,32 +30,72 @@ function ActorsPage(props){
         actorCard= filteredResult.map(actor=> <ActorCard actor={actor}/>);
             };
 
+    function searchTextChange(newSearchText) {
+        setSearchText(newSearchText);
+        // update results is search is not empty
+        if (newSearchText) {
+            axios.get
+            ("https://api.themoviedb.org/3/search/movie?api_key=326d3ce51f35b38c9fc46926dc55bfaa&language=en-US&query=" + newSearchText).then(res => {
+                setResults(res.data.results.map(result => result.title));
+                setResultsFull(res.data.results); // give me 20 movies with all details (obj array)
+                console.log(resultsFull);
+                // (res.data.results.map(x=> x.title))
+            })
+        } else {
+            setResults([]);
+        }
+    };        
+
+    //("https://api.themoviedb.org/3/movie/"+resultsFull[index].id+"?api_key=326d3ce51f35b38c9fc46926dc55bfaa&language=en-US")
+    function addMovie(index) {
+        setMovies(movies.concat(new MovieModel(
+            resultsFull[index].title,
+            resultsFull[index].id,
+            resultsFull[index].run_time,
+            resultsFull[index].overview,
+            resultsFull[index].poster_path
+            )));
+        console.log(movies);
+        setSearchText("");
+        setResults([]);
+    };
+
     useEffect(()=> {
         axios.get
-        ("https://api.themoviedb.org/3/search/movie?api_key=326d3ce51f35b38c9fc46926dc55bfaa&language=en-US&query="+(movieSearch)).then(res=>{
+        ("https://api.themoviedb.org/3/search/movie?api_key=326d3ce51f35b38c9fc46926dc55bfaa&language=en-US&query="
+        +(movieSearch)).then(res=>{
                 let moviesIDs= res.data.results.map(movie=> movie.id);
                 let listOfMovies= moviesIDs.map(movieID => axios.get
-                    ("https://api.themoviedb.org/3/movie/"+movieID+"?api_key=326d3ce51f35b38c9fc46926dc55bfaa&language=en-US").then(res=>{
-                console.log(res.data.title)
-              
+                    ("https://api.themoviedb.org/3/movie/"+movieID+
+                    "?api_key=326d3ce51f35b38c9fc46926dc55bfaa&language=en-US").then(res=>{
+                console.log(res.data.title) 
             }));   
         });
     },[]);
+    
+    const moviesView = movies.map((movie) => <MovieCard movie={movie}/>)
     
     return(
         <div id="main"> 
             <h1>Actors</h1>
             <div className="navbar-nav row">
                 <form>
-                    <label htmlFor="filter" >Filter It! </label>
+                    <label htmlFor="filter" >Filter'em! </label>
                     <input type="text"  id="filter" value={filter} onChange={(e)=> setFilter(e.target.value)}/>
                 </form>
             </div>
             
             <div className="container">
-            
-                {actorCard!== undefined?  actorCard: "loading..." }  
+                {actorCard}
             </div> 
+            <div>
+                <SearchBox placeholder="Add movie..." value={searchText} onSearchChange={searchTextChange}
+                    results={results} onResultSelected={addMovie}/>
+            </div>
+            <div>
+                <h1> Your movies list : </h1>
+                {moviesView} 
+            </div>
         </div>
     )
 }

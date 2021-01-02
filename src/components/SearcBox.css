@@ -1,0 +1,13 @@
+
+.c-searchbox {
+    position: relative;
+    
+    
+}
+
+.c-searchbox > .results-box {
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    
+}
