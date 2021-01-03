@@ -1,5 +1,5 @@
 import { Form, ListGroup } from "react-bootstrap";
-
+import './SearchBox.css'
 
 
 // This componenet is a generic searchbox that shows results immediatly when the user is typing (like google search)
@@ -18,7 +18,7 @@ function SearchBox(props) {
     const resultItems = results.map((result, index) => 
         <ListGroup.Item onClick={()=>onResultSelected(index)} action key={index}>{result}</ListGroup.Item>)
     return (
-        <div className="c-searchbox container">
+        <div className="c-searchbox">
             <Form.Control type="text" placeholder={placeholder} value={value} onChange={e => onSearchChange(e.target.value)}/> 
             <ListGroup className="results-box">
                 {resultItems}

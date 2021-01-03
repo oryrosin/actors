@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import ActorModel from '../models/ActorModel';
-import ActorCard from './ActorCard';
+import ActorModel from '../../models/ActorModel';
+import ActorCard from '../ActorCard';
 import axios from 'axios';
-import MovieCard from './MovieCard'
-import SearchBox from "./SearchBox";
-import MovieModel from '../models/MovieModel'
+import MovieCard from '../MovieCard'
+import SearchBox from "../SearchBox";
+import MovieModel from '../../models/MovieModel'
+import './ActorsPage.css'
 
 function ActorsPage(){
     const [filter, setFilter]= useState("");
@@ -14,7 +15,7 @@ function ActorsPage(){
     const [searchText, setSearchText] = useState("");
     const [results, setResults] = useState([]);
     const [resultsFull, setResultsFull] = useState([]);
-
+    
     useEffect(()=>{
         axios.get("actors.json").then(res=>{
         const actors= res.data.actors.map(plainActor => new ActorModel(plainActor));
@@ -32,15 +33,22 @@ function ActorsPage(){
 
     function searchTextChange(newSearchText) {
         setSearchText(newSearchText);
-        // update results is search is not empty
+        // update results if search is not empty
         if (newSearchText) {
             axios.get
-            ("https://api.themoviedb.org/3/search/movie?api_key=326d3ce51f35b38c9fc46926dc55bfaa&language=en-US&query=" + newSearchText).then(res => {
+            ("https://api.themoviedb.org/3/search/movie?api_key=326d3ce51f35b38c9fc46926dc55bfaa&language=en-US&query=" + newSearchText)
+            .then(res => {
                 setResults(res.data.results.map(result => result.title));
                 setResultsFull(res.data.results); // give me 20 movies with all details (obj array)
                 console.log(resultsFull);
-                // (res.data.results.map(x=> x.title))
-            })
+                let moviesIDs= res.data.results.map(movie=> movie.id);
+                let listOfMovies= moviesIDs.map(movieID => axios.get
+                    ("https://api.themoviedb.org/3/movie/"+ movieID 
+                    +"/credits?api_key=326d3ce51f35b38c9fc46926dc55bfaa&language=en-US")
+                    .then(res=>{
+                        console.log(res.data.cast[0])
+                }));   
+            });        
         } else {
             setResults([]);
         }
@@ -60,18 +68,7 @@ function ActorsPage(){
         setResults([]);
     };
 
-    useEffect(()=> {
-        axios.get
-        ("https://api.themoviedb.org/3/search/movie?api_key=326d3ce51f35b38c9fc46926dc55bfaa&language=en-US&query="
-        +(movieSearch)).then(res=>{
-                let moviesIDs= res.data.results.map(movie=> movie.id);
-                let listOfMovies= moviesIDs.map(movieID => axios.get
-                    ("https://api.themoviedb.org/3/movie/"+movieID+
-                    "?api_key=326d3ce51f35b38c9fc46926dc55bfaa&language=en-US").then(res=>{
-                console.log(res.data.title) 
-            }));   
-        });
-    },[]);
+    
     
     const moviesView = movies.map((movie) => <MovieCard movie={movie}/>)
     
@@ -80,8 +77,8 @@ function ActorsPage(){
             <h1>Actors</h1>
             <div className="navbar-nav row">
                 <form>
-                    <label htmlFor="filter" >Filter'em! </label>
-                    <input type="text"  id="filter" value={filter} onChange={(e)=> setFilter(e.target.value)}/>
+                    <label htmlFor="filter" > </label>
+                    <input type="text" placeholder="Filter'em!" id="filter" value={filter} onChange={(e)=> setFilter(e.target.value)}/>
                 </form>
             </div>
             

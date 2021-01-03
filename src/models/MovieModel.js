@@ -7,7 +7,7 @@ class MovieModel{
         this.id= plainMovieOrTitle.id;
         this.duration= plainMovieOrTitle.duration;
         this.overview= plainMovieOrTitle.overview;
-        this.poster= "https://image.tmdb.org/t/p/w500"+plainMovieOrTitle.poster;
+        this.poster= "https://image.tmdb.org/t/p/w100"+plainMovieOrTitle.poster;
         
         } else{
             this.title= plainMovieOrTitle;
