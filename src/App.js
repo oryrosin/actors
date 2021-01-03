@@ -7,6 +7,7 @@ import MovieCard from './components/MovieCard';
 import { Navbar } from 'react-bootstrap';
 import {Switch, HashRouter, Route} from 'react-router-dom';
 import HomePage from './components/pages/HomePage';
+import MoviesPage from './components/pages/MoviesPage';
 
 
 
@@ -16,7 +17,7 @@ function App() {
     <div>
       <Navbar>
       <Navbar.Brand href="/">Home</Navbar.Brand>
-      <Navbar.Brand href="#home">Movies</Navbar.Brand>
+      <Navbar.Brand href="#/movies">Movies</Navbar.Brand>
       <Navbar.Brand href="#/actors">Actors</Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse className="justify-content-end">
@@ -27,15 +28,13 @@ function App() {
 
           <Route exact path="/">
             <div className="App">
-              <header className="App-header">
-                <HomePage/>
-              </header>
+              <header className="App-header"><HomePage/></header>
             </div>
           </Route>
           
           <Route exact path="/actors"><ActorsPage/></Route>
           
-          {/* <Route exact path="/movies"><?MoviesPage /></Route> */}
+          <Route exact path="/movies"><MoviesPage/></Route>
         </Switch>
       </HashRouter>
     </div>
